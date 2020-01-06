@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BE;
+using BL;
 
 namespace PL
 {
@@ -19,14 +21,30 @@ namespace PL
     /// </summary>
     public partial class AddHostingUnit : Window
     {
-        public AddHostingUnit()
+        private MyBL bL;
+        private HostingUnit hostingUnit;
+        public AddHostingUnit(HostingUnit hostingUnit)
         {
+            bL = MyBL.Instance;
+            this.hostingUnit = hostingUnit;
             InitializeComponent();
+
+            gridDetails.DataContext = hostingUnit;
+            if (hostingUnit.HostingUnitName != null)
+            {
+                hostingUnitNameTextBox.IsEnabled = false;
+            }
+            hostingUnitTypeComboBox.ItemsSource = Enum.GetValues(typeof(Enums.HostingUnitType));
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bL.addHostingUnit(hostingUnit);
         }
     }
 }

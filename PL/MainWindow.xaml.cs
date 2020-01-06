@@ -36,5 +36,34 @@ namespace PL
 
             
         }
+
+        private void pb_AddEditHostingUnit_Click(object sender, RoutedEventArgs e)
+        {
+            new AddHostingUnit(new HostingUnit(new Host(), "Nave Tikva",Enums.HostingUnitType.Camping)).Show();
+        }
+
+        private void lb_HostingUnits_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            gridHostingUnitDetails.DataContext = (sender as ListBox).SelectedItem as HostingUnit;
+          //  new AddHostingUnit((sender as ListBox).SelectedItem as HostingUnit).Show();
+        }
+
+        private void lb_HostingUnits_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new AddHostingUnit((sender as ListBox).SelectedItem as HostingUnit).Show();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource hostingUnitViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("hostingUnitViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // hostingUnitViewSource.Source = [generic data source]
+        }
+
+        private void Window_GotFocus(object sender, RoutedEventArgs e)
+        {
+            lb_HostingUnits.DataContext = bL.getAllHostingUnits();
+        }
     }
 }
